@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Genetic algorithm\GeneticAlgorithm.cs" />
+    <Compile Include="Genetic algorithm\ISolution.cs" />
+    <Compile Include="Genetic algorithm\Population.cs" />
+    <Compile Include="Genetic algorithm\IPopulationManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
