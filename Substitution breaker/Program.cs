@@ -10,7 +10,46 @@ namespace Substitution_breaker
     {
         static void Main(string[] args)
         {
-            Console.Write("F");
+            var breaker=new Breaker(100);
+            var solutions = breaker.Decrypt(@"pehjdziavahrazketakefakgayacaypzjpkefakg
+ayjlvjprqyajllpsaalkgjkqilerqdptarksyqadzqujdkta
+lqacakgqruehlztakgaadzqkleemrjrkgehfgpehjyalakk
+qdejdzqsqkryajlvallqzedkvjdkkemdevzedkrnajmq
+mdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdf
+zedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehy
+akgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhra
+qkghykrehyiaieyqarkgapujdtaqdcqkqdfthkreiajyajlke
+fakgayiqfglpsyqfgkadqdfjrvazqatekgphehjdzqvqkgg
+ajzqdipgjdzrqrqkjdzuypzedkrnajmqmdevxhrkvgjkpe
+hyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkg
+hykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaa
+zpehyyajredrzedkkalliaujhraqkghykrqkrjlladzq
+dfqfekkjrkennyakadzqdfvgevajyapehjdziaqujdraahrzpq
+dfjyavazedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarke
+naonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjk
+pehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqk
+ghykrzedkkalliaujhraqkghykrqmdevvgjkpehjyarjpqdfrenla
+jrarkenaonljqdqdfzedkrnajmzedkrnajmzedkrnajmdeqmde
+vvgjkpehyakgqdmqdfjdzqzedkdaazpehyyajredrqmdevpeh
+feezqmdevpehfeezqmdevpehyajlfeezeg
+zphqaqpavqzmjmhmykzhmiqpsnpbhsi
+mapprhmyzhmiqpsnpbhszlvqmyiuvppihszlvq
+myiuvppimyizgkymyiupyqmhkyindmn
+zoqmgmyindqumlgkzznrpytjpsvpmizkfnqqynpymyi
+odmnipjpstqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpn
+dqripynjpslmvvhqlmszqklmyntpkpo
+qhjzpsvnpmlphamyjznprqkomzup
+rypyqhprykytodqyndqzsyikiynzdkyqkaklgqisahjzdpeqvm
+yikomvgqinpndqhkyqkvpmiqizkfnqqynpypb
+yshuqrykyqlpmvmyindqznrpytupzzzmkioqvvu
+vqzzmhmzpsvjpsvpmizkfnqqynpymyiodmnipjp
+stqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpnd
+qripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlpha
+myjznprqoqvvkbjpszqqhqmlphkyuqnnqrznqamzkiqmvpnpbh
+qyikiynmvpnpbhqyikqipyqbkznkzkrpyndqpndqrpb
+znqqvkbndqrktdnpyqipyntqnjpsndqyndqvqbnpyqo
+kvvpdurpndqripynjpslmvvhqlmszqklmyntpkpoq
+hjzpsvnpmlphamyjznprq");
         }
     }
 }

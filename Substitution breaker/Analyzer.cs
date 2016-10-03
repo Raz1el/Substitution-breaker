@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Substitution_breaker.Genetic_algorithm
+namespace Substitution_breaker
 {
-    public class Population
+    public class Analyzer
     {
-       public IEnumerable<ISolution> Solutions { get; set; }
 
-
-        double AverageFitness()
+        public DistributionData Analyze(string text)
         {
             throw new NotImplementedException();
         }

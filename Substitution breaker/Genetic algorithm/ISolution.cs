@@ -9,5 +9,7 @@ namespace Substitution_breaker.Genetic_algorithm
     public interface ISolution
     {
         double FitnessFunction();
+        ISolution Crossover(ISolution otherSolution);
+        ISolution Mutation();
     }
 }
