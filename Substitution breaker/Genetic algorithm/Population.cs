@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Substitution_breaker.Genetic_algorithm
 {
-    public class Population
+    public class Population<T>
     {
-       public IEnumerable<ISolution> Solutions { get; set; }
+       public IEnumerable<ISolution<T>> Solutions { get; set; }
 
 
         double AverageFitness()

@@ -11,6 +11,7 @@ namespace Substitution_breaker
 
         public DistributionData Analyze(string text)
         {
+
             throw new NotImplementedException();
         }
     }

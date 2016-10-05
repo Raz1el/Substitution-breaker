@@ -1,8 +1,8 @@
 ﻿namespace Substitution_breaker.Genetic_algorithm
 {
-    public interface IPopulationManager
+    public interface IPopulationManager<T>
     {
-        Population CreatePopulation();
-        Population Selection(Population population);
+        Population<T> CreatePopulation();
+        Population<T> Selection(Population<T> population);
     }
 }

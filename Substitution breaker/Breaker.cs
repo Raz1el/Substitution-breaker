@@ -9,7 +9,7 @@ namespace Substitution_breaker
 {
     public class Breaker
     {
-        GeneticAlgorithm _geneticAlgorithm;
+        GeneticAlgorithm<Key> _geneticAlgorithm;
         KeyManager _keyManager;
         int _iterationsCount;
 
@@ -19,19 +19,14 @@ namespace Substitution_breaker
         }
 
 
-        public List<string> Decrypt(string text)
+        public Dictionary<Key,string> Decrypt(string text)
         {
             var analyzer=new Analyzer();
             var statisticalInfo = analyzer.Analyze(text);
             _keyManager =new KeyManager(statisticalInfo);
-            _geneticAlgorithm=new GeneticAlgorithm(_keyManager);
-            var possibleKeys=_geneticAlgorithm.SolveProblem(_iterationsCount, x => false).Solutions.Select(x=>(Key)x);
-            var result=new List<string>();
-            foreach (var possibleKey in possibleKeys)
-            {
-                result.Add(possibleKey.Decrypt(text));
-            }
-            return result;
+            _geneticAlgorithm=new GeneticAlgorithm<Key> (_keyManager);
+            var possibleKeys=_geneticAlgorithm.SolveProblem(_iterationsCount, x => false).Solutions.Select(x=>x.GetSolution());
+            return possibleKeys.ToDictionary(possibleKey => possibleKey, possibleKey => possibleKey.Decrypt());
 
         }
     }

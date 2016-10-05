@@ -11,7 +11,8 @@ namespace Substitution_breaker
         static void Main(string[] args)
         {
             var breaker=new Breaker(100);
-            var solutions = breaker.Decrypt(@"pehjdziavahrazketakefakgayacaypzjpkefakg
+            var solutions = breaker.Decrypt
+                (@"pehjdziavahrazketakefakgayacaypzjpkefakg
 ayjlvjprqyajllpsaalkgjkqilerqdptarksyqadzqujdkta
 lqacakgqruehlztakgaadzqkleemrjrkgehfgpehjyalakk
 qdejdzqsqkryajlvallqzedkvjdkkemdevzedkrnajmq

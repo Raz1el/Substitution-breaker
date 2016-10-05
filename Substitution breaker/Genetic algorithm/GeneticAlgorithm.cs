@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Substitution_breaker.Genetic_algorithm
 {
-    public class GeneticAlgorithm
+    public class GeneticAlgorithm<T>
     {
-        readonly IPopulationManager _populationManager;
+        readonly IPopulationManager<T> _populationManager;
 
 
-        public GeneticAlgorithm(IPopulationManager populationManager)
+        public GeneticAlgorithm(IPopulationManager<T> populationManager)
         {
             _populationManager = populationManager;
         }
-        public Population SolveProblem(int iterations,Predicate<Population> terminationCondition)
+        public Population<T> SolveProblem(int iterations,Predicate<Population<T>> terminationCondition)
         {
-            Population population = _populationManager.CreatePopulation();
+            Population<T> population = _populationManager.CreatePopulation();
             for (int i = 0; i < iterations; i++)
             {
                 population = _populationManager.Selection(population);

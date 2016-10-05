@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Substitution_breaker.Genetic_algorithm
 {
-    public interface ISolution
+    public interface ISolution<T>
     {
         double FitnessFunction();
-        ISolution Crossover(ISolution otherSolution);
-        ISolution Mutation();
+        ISolution<T> Crossover(ISolution<T> otherSolution);
+        ISolution<T> Mutation();
+        T GetSolution();
     }
 }

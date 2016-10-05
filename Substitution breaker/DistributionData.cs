@@ -8,7 +8,13 @@ namespace Substitution_breaker
 {
     public class DistributionData
     {
-        public double[,] BigramMatrix { get; set; }
-        public double[,] BigramMatrixSample { get; set; }
+
+        public Dictionary<char,double> LettersDistribution { get; set; }
+        public Dictionary<char, double> LettersDistributionSample { get; set; }
+
+        public Dictionary<Tuple<char,char>, double> BigramMatrix { get; set; }
+        public Dictionary<Tuple<char, char>, double> BigramMatrixSample { get; set; }
+
+        
     }
 }

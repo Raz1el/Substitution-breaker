@@ -7,7 +7,7 @@ using Substitution_breaker.Genetic_algorithm;
 
 namespace Substitution_breaker
 {
-    public class KeyManager : IPopulationManager
+    public class KeyManager : IPopulationManager<Key>
     {
         DistributionData _data;
 
@@ -17,12 +17,12 @@ namespace Substitution_breaker
             _data = data;
         }
         
-        public Population CreatePopulation()
+        public Population<Key> CreatePopulation()
         {
             throw new NotImplementedException();
         }
 
-        public Population Selection(Population population)
+        public Population<Key> Selection(Population<Key> population)
         {
             throw new NotImplementedException();
         }
