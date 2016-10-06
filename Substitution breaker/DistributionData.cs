@@ -15,6 +15,10 @@ namespace Substitution_breaker
         public Dictionary<Tuple<char,char>, double> BigramMatrix { get; set; }
         public Dictionary<Tuple<char, char>, double> BigramMatrixSample { get; set; }
 
-        
+        public DistributionData()
+        {
+            LettersDistributionSample = SampleSerializator.GetOnegramms();
+            BigramMatrixSample = SampleSerializator.GetBigramms();
+        }
     }
 }
