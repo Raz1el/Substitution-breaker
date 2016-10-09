@@ -21,7 +21,8 @@ namespace Substitution_breaker.Genetic_algorithm
             for (int i = 0; i < iterations; i++)
             {
                 population = _populationManager.Selection(population);
-                Console.WriteLine(population.AverageFitness);
+
+                Console.WriteLine(i.ToString() + " " +population.AverageFitness.ToString());
                 if (terminationCondition(population))
                 {
                     return population;

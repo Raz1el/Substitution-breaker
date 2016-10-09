@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="Breaker.cs" />
+    <Compile Include="Changer.cs" />
+    <Compile Include="ConsoleSolutionChanger.cs" />
     <Compile Include="DistributionData.cs" />
     <Compile Include="Genetic algorithm\GeneticAlgorithm.cs" />
     <Compile Include="Genetic algorithm\ISolution.cs" />

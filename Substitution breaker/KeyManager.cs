@@ -38,6 +38,7 @@ namespace Substitution_breaker
         {
 
             var solutions = population.Solutions;
+          
             for (int i = 0; i < PopulationSize; i++)
             {
                 var parent = solutions.ElementAt(i);

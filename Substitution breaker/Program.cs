@@ -22,15 +22,25 @@ namespace Substitution_breaker
 
 
 
-            var breaker = new Breaker(1500);
+            var breaker = new Breaker(500);
             var solutions = breaker.Decrypt
                 (_text);
             foreach (var solution in solutions)
             {
                 Console.WriteLine("[FITNESS:"+solution.Key.Fitness+"] "+solution.Value);
-                Console.ReadKey();
+                Console.WriteLine();
+                Console.WriteLine("Хотите задать другие отображения? (Y/N)");
+                var temp = Console.ReadLine();
+                
+                if(temp.Length>0 && temp.Length<2 && char.ToLower(temp[0])=='y')
+                {
+                    var changer = new ConsoleSolutionChanger(solution.Value);
+                    changer.Start();
+                }
                 Console.Clear();
             }
+            
+
 
         }
         static string _text= "pehjdziavahrazketakefakgayacaypzjpkefakgayjlvjprqyajllpsaalkgjkqilerqdptarksyqadzqujdktalqacakgqruehlztakgaadzqkleemrjrkgehfgpehjyalakkqdejdzqsqkryajlvallqzedkvjdkkemdevzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrehyiaieyqarkgapujdtaqdcqkqdfthkreiajyajlkefakgayiqfglpsyqfgkadqdfjrvazqatekgphehjdzqvqkggajzqdipgjdzrqrqkjdzuypzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrqkrjlladzqdfqfekkjrkennyakadzqdfvgevajyapehjdziaqujdraahrzpqdfjyavazedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrzedkkalliaujhraqkghykrqmdevvgjkpehjyarjpqdfrenlajrarkenaonljqdqdfzedkrnajmzedkrnajmzedkrnajmdeqmdevvgjkpehyakgqdmqdfjdzqzedkdaazpehyyajredrqmdevpehfeezqmdevpehfeezqmdevpehyajlfeezeg";

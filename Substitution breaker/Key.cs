@@ -25,9 +25,10 @@ namespace Substitution_breaker
         public double FitnessFunction()
         {
             var result = 0.0;
+            var temp = StatisticalInformation.BigramMatrixSample.ToArray();
             for (int i = 0; i < StatisticalInformation.BigramMatrix.Count; i++)
             {
-                var cipherPair = StatisticalInformation.BigramMatrixSample.ElementAt(i).Key;
+                var cipherPair = temp[i].Key;
                 var cleanPair = new Tuple<char, char>(Substitution[cipherPair.Item1], Substitution[cipherPair.Item2]);
                 result += Math.Abs(StatisticalInformation.BigramMatrix[cipherPair] - StatisticalInformation.BigramMatrixSample[cleanPair]);
             }
