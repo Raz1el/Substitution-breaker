@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,7 @@ namespace Substitution_breaker.Genetic_algorithm
             for (int i = 0; i < iterations; i++)
             {
                 population = _populationManager.Selection(population);
-
-                Console.WriteLine(i.ToString() + " " +population.AverageFitness.ToString());
+                Console.WriteLine(i + " " +population.AverageFitness);
                 if (terminationCondition(population))
                 {
                     return population;

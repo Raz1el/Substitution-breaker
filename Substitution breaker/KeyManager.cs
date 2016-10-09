@@ -19,7 +19,7 @@ namespace Substitution_breaker
 
 
 
-        public KeyManager(DistributionData data,string text)
+        public KeyManager(DistributionData data,string text,int populationSize)
         {
             _data = data;
             _text = text;
@@ -36,14 +36,13 @@ namespace Substitution_breaker
 
         public Population<Key> Selection(Population<Key> population)
         {
-
             var solutions = population.Solutions;
           
             for (int i = 0; i < PopulationSize; i++)
             {
                 var parent = solutions.ElementAt(i);
-                var child = solutions.ElementAt(i).Evolve();
-                if (child == parent)
+                var child = parent.Evolve();
+                if (child == parent|| _oldKeys.Contains(child.ToString()))
                 {
                     _oldKeys.Add(child.ToString());
                     solutions.Remove(parent);
@@ -54,7 +53,7 @@ namespace Substitution_breaker
                     solutions.Add(child);
 
                 }
-                else if (!solutions.Contains(child)&&!_oldKeys.Contains(child.ToString()))
+                else if (!solutions.Contains(child))
                 {
                     solutions.Add(child);
                 }

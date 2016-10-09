@@ -13,7 +13,7 @@ namespace Substitution_breaker
         const int RandomSwapCount = 10;
         public DistributionData StatisticalInformation { get; set; }
         public Dictionary<char,char> Substitution { get; set; }
-        public double Fitness { get { return FitnessFunction(); } }
+        public double Fitness { get; private set; }
 
         public Key(Dictionary<char,char> substitution,DistributionData statisticalInfo)
         {
@@ -25,13 +25,13 @@ namespace Substitution_breaker
         public double FitnessFunction()
         {
             var result = 0.0;
-            var temp = StatisticalInformation.BigramMatrixSample.ToArray();
-            for (int i = 0; i < StatisticalInformation.BigramMatrix.Count; i++)
+            for (int i = 0; i < StatisticalInformation.BigrammMatrix.Count; i++)
             {
-                var cipherPair = temp[i].Key;
+                var cipherPair = StatisticalInformation.BigrammArray[i].Key;
                 var cleanPair = new Tuple<char, char>(Substitution[cipherPair.Item1], Substitution[cipherPair.Item2]);
-                result += Math.Abs(StatisticalInformation.BigramMatrix[cipherPair] - StatisticalInformation.BigramMatrixSample[cleanPair]);
+                result += Math.Abs(StatisticalInformation.BigrammMatrix[cipherPair] - StatisticalInformation.BigrammMatrixSample[cleanPair]);
             }
+            Fitness = result;
             return result;
         }
 
@@ -56,7 +56,7 @@ namespace Substitution_breaker
                 {
                     Swap(j, j + i, newSubstitution);
                     var newKey = new Key(newSubstitution, StatisticalInformation);
-                    if (newKey.Fitness < Fitness)
+                    if (newKey.FitnessFunction() < Fitness)
                         return newKey;
                     else
                     {
@@ -79,19 +79,15 @@ namespace Substitution_breaker
                 {
                     secondIndex = RandomGenerator.GetNumber(0, StatisticalInformation.LettersDistribution.Count - 1);
                 }
-                var firstPair = newSubstitution.ElementAt(firstIndex);
-                var secondPair = newSubstitution.ElementAt(secondIndex);
-                newSubstitution[firstPair.Key] = secondPair.Value;
-                newSubstitution[secondPair.Key] = firstPair.Value;
+                Swap(firstIndex,secondIndex,newSubstitution);
             }
             return new Key(newSubstitution, StatisticalInformation);
         }
         void Swap(int firstIndex,int secondIndex,Dictionary<char,char> substitution)
         {
-            var firstPair = substitution.ElementAt(firstIndex);
-            var secondPair = substitution.ElementAt(secondIndex);
-            substitution[firstPair.Key] = secondPair.Value;
-            substitution[secondPair.Key] = firstPair.Value;
+            var tmp = substitution[StatisticalInformation.Alphabet[firstIndex]];
+            substitution[StatisticalInformation.Alphabet[firstIndex]]= substitution[StatisticalInformation.Alphabet[secondIndex]];
+            substitution[StatisticalInformation.Alphabet[secondIndex]] = tmp;
 
         }
 
@@ -103,7 +99,6 @@ namespace Substitution_breaker
         public override bool Equals(object obj)
         {
             var key = (Key)obj;
-
             return ToString() == key.ToString();
         }
 
@@ -116,9 +111,9 @@ namespace Substitution_breaker
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var letter in StatisticalInformation.LettersDistribution.Keys)
+            for (int i = 0; i < StatisticalInformation.Alphabet.Length; i++)
             {
-                stringBuilder.Append(Substitution[letter]);
+                stringBuilder.Append(Substitution[StatisticalInformation.Alphabet[i]]);
             }
             return stringBuilder.ToString();
         }

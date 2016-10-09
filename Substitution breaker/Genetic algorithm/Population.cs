@@ -11,29 +11,35 @@ namespace Substitution_breaker.Genetic_algorithm
     {
        public HashSet<ISolution<T>> Solutions { get; set; }
 
-
+        double _averageFitness;
         public double AverageFitness
         {
             get
             {
-                var res = 0.0;
-                foreach (var solution in Solutions)
+                if (_averageFitness == 0)
                 {
-                    res += solution.FitnessFunction();
+                    var res = 0.0;
+                    foreach (var solution in Solutions)
+                    {
+                        res += solution.FitnessFunction();
+                    }
+                    return res/Solutions.Count;
                 }
-                return res/Solutions.Count;
+                else
+                {
+                    return _averageFitness;
+                }
             }
+            set { _averageFitness = value; }
         } 
 
 
         public Population(HashSet<ISolution<T>> solutions)
         {
             Solutions = solutions;
+            _averageFitness = 0;
         }
 
-        public void Add(ISolution<T> newSolution)
-        {
-            Solutions.Add(newSolution);
-        }
+     
     }
 }

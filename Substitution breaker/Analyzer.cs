@@ -8,18 +8,18 @@ namespace Substitution_breaker
 {
     public class Analyzer
     {
-        private static readonly List<char> _englishAlphabet = Enumerable.Range('a', 'z' - 'a' + 1).Select(n => (char)n).ToList();
-        public DistributionData Analyze(string text)
+       
+        public DistributionData Analyze(string text,Language language)
         {
-            var data = new DistributionData();
-            data.BigramMatrix = CountBigramms(text);
-            data.LettersDistribution = CountOnegramms(text);
+            
+       
+            var data = new DistributionData(language, CountOnegramms(text), CountBigramms(text));
             return data;
         }
 
         private Dictionary<char,double> CountOnegramms(string text)
         {
-            var distribution = GetLettersDistributionBase(_englishAlphabet);
+            var distribution = GetLettersDistributionBase(AlphabetHelper.EnglishAlphabet);
             var iters = text.Length;
             for (int i = 0; i < text.Length; i++)
             {
@@ -50,7 +50,7 @@ namespace Substitution_breaker
 
         private Dictionary<Tuple<char,char>,double> CountBigramms(string text)
         {
-            var distribution = GetBigrammsDistributionBase(_englishAlphabet);
+            var distribution = GetBigrammsDistributionBase(AlphabetHelper.EnglishAlphabet);
             var iters = text.Length;
             for (int i = 0; i < text.Length-1; i++)
             {                
@@ -71,7 +71,7 @@ namespace Substitution_breaker
 
         private Dictionary<Tuple<char,char>,int> GetBigrammsDistributionBase(IList<char> alphabet)
         {
-            var bigramms = GetBigramms(_englishAlphabet);
+            var bigramms = GetBigramms(AlphabetHelper.EnglishAlphabet);
             var temp = new Dictionary<Tuple<char, char>, int>();
             foreach (var bigramm in bigramms)
             {
