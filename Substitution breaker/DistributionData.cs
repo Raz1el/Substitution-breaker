@@ -19,6 +19,11 @@ namespace Substitution_breaker
         {
             LettersDistributionSample = SampleSerializator.GetOnegramms();
             BigramMatrixSample = SampleSerializator.GetBigramms();
+
+            
+          
         }
+
+       
     }
 }

@@ -32,7 +32,15 @@ namespace Substitution_breaker
         private static string GetCurrentDirectory()
         {
             var directory = Environment.CurrentDirectory;
-            directory = directory.Remove(directory.Length - 10);
+            if (directory.EndsWith("Release"))
+            {
+                directory = directory.Remove(directory.Length - 12);
+            }
+            else
+            {
+                directory = directory.Remove(directory.Length - 10);
+            }
+      
             return directory;
         }
 
