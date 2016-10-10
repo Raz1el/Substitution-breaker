@@ -9,26 +9,27 @@ namespace Substitution_breaker.Genetic_algorithm
 {
     public class GeneticAlgorithm<T>
     {
-        readonly IPopulationManager<T> _populationManager;
+        readonly ISolutionManager<T> _populationManager;
 
 
-        public GeneticAlgorithm(IPopulationManager<T> populationManager)
+        public GeneticAlgorithm(ISolutionManager<T> populationManager)
         {
             _populationManager = populationManager;
         }
-        public Population<T> SolveProblem(int iterations,Predicate<Population<T>> terminationCondition)
+        public ISolution<T> SolveProblem(int iterations,Predicate<ISolution<T>> terminationCondition)
+    
         {
-            Population<T> population = _populationManager.CreatePopulation();
+            ISolution<T> solution = _populationManager.CreateSolution();
             for (int i = 0; i < iterations; i++)
             {
-                population = _populationManager.Selection(population);
-                Console.WriteLine(i + " " +population.AverageFitness);
-                if (terminationCondition(population))
+                solution = _populationManager.Selection(solution);
+                Console.WriteLine(i + " " +solution.FitnessFunction());
+                if (terminationCondition(solution))
                 {
-                    return population;
+                    return solution;
                 }
             }
-            return population;
+            return solution;
         }
     }
 }

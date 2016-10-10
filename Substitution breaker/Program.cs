@@ -23,27 +23,26 @@ namespace Substitution_breaker
 
 
 
-            var breaker = new Breaker(100,0.9,1,Language.English);
+            var breaker = new Breaker(100,0.81,Language.English);
             var timer=new Stopwatch();
             timer.Start();
-            var solutions = breaker.Decrypt
+            var solution = breaker.FindKey
                 (_text);
             timer.Stop();
             Console.WriteLine(timer.Elapsed);
-            foreach (var solution in solutions)
+
+            Console.WriteLine("[FITNESS:" + solution.Item1.Fitness + "] " + solution.Item2);
+            Console.WriteLine();
+            Console.WriteLine("Хотите задать другие отображения? (Y/N)");
+            var temp = Console.ReadLine();
+
+            if (temp.Length > 0 && temp.Length < 2 && char.ToLower(temp[0]) == 'y')
             {
-                Console.WriteLine("[FITNESS:"+solution.Key.Fitness+"] "+solution.Value);
-                Console.WriteLine();
-                Console.WriteLine("Хотите задать другие отображения? (Y/N)");
-                var temp = Console.ReadLine();
-                
-                if(temp.Length>0 && temp.Length<2 && char.ToLower(temp[0])=='y')
-                {
-                    var changer = new ConsoleSolutionChanger(solution.Value);
-                    changer.Start();
-                }
-                Console.Clear();
+                var changer = new ConsoleSolutionChanger(solution.Item2);
+                changer.Start();
             }
+            Console.Clear();
+            
             
 
 

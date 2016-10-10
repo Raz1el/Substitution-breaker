@@ -8,65 +8,49 @@ using Substitution_breaker.Genetic_algorithm;
 
 namespace Substitution_breaker
 {
-    public class KeyManager : IPopulationManager<Key>
+    public class KeyManager : ISolutionManager<Key>
     {
-        const int PopulationSize=1;
+
 
         DistributionData _data;
-        string _text;
         HashSet<string> _oldKeys;
       
 
 
 
-        public KeyManager(DistributionData data,string text,int populationSize)
+        public KeyManager(DistributionData data)
         {
             _data = data;
-            _text = text;
             _oldKeys = new HashSet<string>();
         }
         
-        public Population<Key> CreatePopulation()
+        public ISolution<Key> CreateSolution()
         {
-            var solutions = BuildKeys();
            
-            return new Population<Key>(solutions);
+            return BuildKey();
             
         }
 
-        public Population<Key> Selection(Population<Key> population)
+        public ISolution<Key> Selection(ISolution<Key> solution)
         {
-            var solutions = population.Solutions;
-          
-            for (int i = 0; i < PopulationSize; i++)
+            var parent = solution;
+            var child = parent.Evolve();
+            var childString = child.ToString();
+            var parentString = parent.ToString();
+            if (childString==parentString|| _oldKeys.Contains(childString))
             {
-                var parent = solutions.ElementAt(i);
-                var child = parent.Evolve();
-                if (child == parent|| _oldKeys.Contains(child.ToString()))
+                while (_oldKeys.Contains(childString))
                 {
-                    _oldKeys.Add(child.ToString());
-                    solutions.Remove(parent);
-                    while (_oldKeys.Contains(child.ToString()))
-                    {
-                        child = parent.Mutate();
-                    }
-                    solutions.Add(child);
-
+                    child = parent.Mutate();
+                    childString = child.ToString();
                 }
-                else if (!solutions.Contains(child))
-                {
-                    solutions.Add(child);
-                }
-
             }
-            var newSolutions = population.Solutions.OrderBy(x => x.FitnessFunction()).Take(PopulationSize);
-            return new Population<Key>(new HashSet<ISolution<Key>>(newSolutions));
+            _oldKeys.Add(childString);
+            return child;
         }
 
-        public HashSet<ISolution<Key>> BuildKeys()
+        public ISolution<Key> BuildKey()
         {
-
-            var solutions = new HashSet<ISolution<Key>>();
             var substitution = new Dictionary<char, char>();
             var orderedLetterDistribution = _data.LettersDistribution.OrderBy(x => x.Value).Select(x => x.Key).ToArray();
             var orderedLetterDistributionSample = _data.LettersDistributionSample.OrderBy(x => x.Value).Select(x => x.Key).ToArray();
@@ -74,16 +58,7 @@ namespace Substitution_breaker
             {
                 substitution.Add(orderedLetterDistributionSample[i], orderedLetterDistribution[i]);
             }
-            var key = new Key(substitution, _data);
-            solutions.Add(key);
-            ISolution<Key> newKey = key;
-
-            for (int i = 0; i < PopulationSize; i++)
-            {
-                newKey = newKey.Mutate();
-                solutions.Add(newKey);
-            }
-            return solutions;
+           return new Key(substitution, _data);
         }
 
      

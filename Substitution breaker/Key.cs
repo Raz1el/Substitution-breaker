@@ -11,15 +11,29 @@ namespace Substitution_breaker
     public class Key:ISolution<Key>
     {
         const int RandomSwapCount = 10;
+       
+
         public DistributionData StatisticalInformation { get; set; }
         public Dictionary<char,char> Substitution { get; set; }
-        public double Fitness { get; private set; }
+
+        private double _fitness;
+
+        public double Fitness
+        {
+            get
+            {
+                if (_fitness < 0)
+                    _fitness = FitnessFunction();
+                return _fitness;
+            }
+        }
 
         public Key(Dictionary<char,char> substitution,DistributionData statisticalInfo)
         {
             Substitution = substitution;
             StatisticalInformation = statisticalInfo;
-       
+            _fitness = -1;
+
         }
 
         public double FitnessFunction()
@@ -31,7 +45,88 @@ namespace Substitution_breaker
                 var cleanPair = new Tuple<char, char>(Substitution[cipherPair.Item1], Substitution[cipherPair.Item2]);
                 result += Math.Abs(StatisticalInformation.BigrammMatrix[cipherPair] - StatisticalInformation.BigrammMatrixSample[cleanPair]);
             }
-            Fitness = result;
+            return result;
+        }
+
+        double FastFitnessFunction(char firstChar,char secondChar)
+        {
+            var result = Fitness;
+
+
+            var pair1 = new Tuple<char, char>(firstChar, firstChar);
+            var oldPair1 = new Tuple<char, char>(Substitution[firstChar], Substitution[firstChar]);
+            var newPair1 = new Tuple<char, char>(Substitution[secondChar], Substitution[secondChar]);
+
+            var pair2 = new Tuple<char, char>(secondChar, secondChar);
+            var oldPair2 = new Tuple<char, char>(Substitution[secondChar], Substitution[secondChar]);
+            var newPair2 = new Tuple<char, char>(Substitution[firstChar], Substitution[firstChar]);
+
+            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[newPair1]);
+            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[oldPair1]);
+
+            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[newPair2]);
+            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[oldPair2]);
+
+
+
+
+            pair1 = new Tuple<char, char>(firstChar, secondChar);
+            oldPair1 = new Tuple<char, char>(Substitution[firstChar], Substitution[secondChar]);
+            newPair1 = new Tuple<char, char>(Substitution[secondChar], Substitution[firstChar]);
+
+            pair2 = new Tuple<char, char>(secondChar, firstChar);
+            oldPair2 = new Tuple<char, char>(Substitution[secondChar], Substitution[firstChar]);
+            newPair2 = new Tuple<char, char>(Substitution[firstChar], Substitution[secondChar]);
+
+            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[newPair1]);
+            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[oldPair1]);
+
+            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[newPair2]);
+            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[oldPair2]);
+
+
+            for (int i = 0; i < StatisticalInformation.Alphabet.Length; i++)
+            {
+                if (StatisticalInformation.Alphabet[i] == firstChar|| StatisticalInformation.Alphabet[i]==secondChar)
+                {
+                    continue;
+                }
+
+                pair1 = new Tuple<char, char>(firstChar, StatisticalInformation.Alphabet[i]);
+                oldPair1 = new Tuple<char, char>(Substitution[firstChar],Substitution[StatisticalInformation.Alphabet[i]]);
+                newPair1 = new Tuple<char, char>(Substitution[secondChar], Substitution[StatisticalInformation.Alphabet[i]]);
+
+                pair2 = new Tuple<char, char>(secondChar, StatisticalInformation.Alphabet[i]);
+                oldPair2 = new Tuple<char, char>(Substitution[secondChar],Substitution[StatisticalInformation.Alphabet[i]]);
+                newPair2 = new Tuple<char, char>(Substitution[firstChar], Substitution[StatisticalInformation.Alphabet[i]]);
+
+                result +=Math.Abs(StatisticalInformation.BigrammMatrix[pair1] -StatisticalInformation.BigrammMatrixSample[newPair1]);
+                result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] -StatisticalInformation.BigrammMatrixSample[oldPair1]);
+
+                result +=Math.Abs(StatisticalInformation.BigrammMatrix[pair2] -StatisticalInformation.BigrammMatrixSample[newPair2]);
+                result -=Math.Abs(StatisticalInformation.BigrammMatrix[pair2] -StatisticalInformation.BigrammMatrixSample[oldPair2]);
+
+
+
+
+
+
+                pair1 = new Tuple<char, char>( StatisticalInformation.Alphabet[i], firstChar);
+                oldPair1 = new Tuple<char, char>(Substitution[StatisticalInformation.Alphabet[i]], Substitution[firstChar]);
+                newPair1 = new Tuple<char, char>(Substitution[StatisticalInformation.Alphabet[i]], Substitution[secondChar]);
+
+                pair2 = new Tuple<char, char>( StatisticalInformation.Alphabet[i], secondChar);
+                oldPair2 = new Tuple<char, char>( Substitution[StatisticalInformation.Alphabet[i]], Substitution[secondChar]);
+                newPair2 = new Tuple<char, char>( Substitution[StatisticalInformation.Alphabet[i]], Substitution[firstChar]);
+
+                result += Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[newPair1]);
+                result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[oldPair1]);
+
+                result += Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[newPair2]);
+                result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[oldPair2]);
+
+            }
+
             return result;
         }
 
@@ -49,18 +144,16 @@ namespace Substitution_breaker
 
         public ISolution<Key> Evolve()
         {
-            var newSubstitution = new Dictionary<char, char>(Substitution);
             for (int i = 1; i < Substitution.Count - 1; i++)
             {
                 for (int j = 0; j < Substitution.Count - i; j++)
                 {
-                    Swap(j, j + i, newSubstitution);
-                    var newKey = new Key(newSubstitution, StatisticalInformation);
-                    if (newKey.FitnessFunction() < Fitness)
-                        return newKey;
-                    else
+                    var fitness = FastFitnessFunction(StatisticalInformation.Alphabet[j],
+                        StatisticalInformation.Alphabet[j + i]);
+                    if (fitness < Fitness)
                     {
-                        Swap(j, i + j, newSubstitution);
+                        Swap(j, j + i, Substitution);
+                        return new Key(Substitution, StatisticalInformation);
                     }
                 }
             }

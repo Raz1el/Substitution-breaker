@@ -9,8 +9,6 @@ namespace Substitution_breaker
 {
     public class Breaker
     {
-
-        const int DefaultPopulationSize=1;
         const double DefaultSuccesValue = 0.95;
 
         double _successValue;
@@ -23,25 +21,36 @@ namespace Substitution_breaker
 
 
 
-        public Breaker(int iterationsCount,double successValue, int populationSize,Language language)
+        public Breaker(int iterationsCount,double successValue,Language language)
         {
             _iterationsCount = iterationsCount;
             _successValue = successValue;
-            _populationSize = populationSize;
             _language = language;
         }
 
      
 
 
-        public Dictionary<Key,string> Decrypt(string text)
+        public Tuple<Key,string> FindKey(string text)
         {
             var analyzer=new Analyzer();
             var statisticalInfo = analyzer.Analyze(text,_language);
-            _keyManager =new KeyManager(statisticalInfo,text,_populationSize);
+            _keyManager =new KeyManager(statisticalInfo);
             _geneticAlgorithm=new GeneticAlgorithm<Key> (_keyManager);
-            var possibleKeys = _geneticAlgorithm.SolveProblem(_iterationsCount, x => x.AverageFitness < _successValue).Solutions.Select(x => x.GetSolution());
-            return possibleKeys.ToDictionary(possibleKey => possibleKey, possibleKey => possibleKey.Decrypt(text));
+            var minFitness = double.MaxValue;
+            Key bestKey = null;
+           _geneticAlgorithm.SolveProblem(_iterationsCount, (x) =>
+            {
+                var solution = x.GetSolution();
+                if (solution.Fitness < minFitness)
+                {
+                    minFitness = solution.Fitness;
+                    bestKey = solution;
+                }
+
+                return x.GetSolution().Fitness < _successValue;
+            }).GetSolution();
+            return new Tuple<Key, string>(bestKey,bestKey.Decrypt(text));
 
         }
 
