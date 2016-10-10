@@ -23,7 +23,6 @@ namespace Substitution_breaker.Genetic_algorithm
             for (int i = 0; i < iterations; i++)
             {
                 solution = _populationManager.Selection(solution);
-                Console.WriteLine(i + " " +solution.FitnessFunction());
                 if (terminationCondition(solution))
                 {
                     return solution;

@@ -40,8 +40,9 @@ namespace Substitution_breaker
             var minFitness = double.MaxValue;
             Key bestKey = null;
            _geneticAlgorithm.SolveProblem(_iterationsCount, (x) =>
-            {
+           {
                 var solution = x.GetSolution();
+               Console.WriteLine(solution.Fitness);
                 if (solution.Fitness < minFitness)
                 {
                     minFitness = solution.Fitness;

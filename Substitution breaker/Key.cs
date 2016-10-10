@@ -53,77 +53,123 @@ namespace Substitution_breaker
             var result = Fitness;
 
 
+            var firstCharImage = Substitution[firstChar];
+            var secondCharImage = Substitution[secondChar];
+
+
+          
+
             var pair1 = new Tuple<char, char>(firstChar, firstChar);
-            var oldPair1 = new Tuple<char, char>(Substitution[firstChar], Substitution[firstChar]);
-            var newPair1 = new Tuple<char, char>(Substitution[secondChar], Substitution[secondChar]);
+            var oldPair1 = new Tuple<char, char>(firstCharImage, firstCharImage);
+            var newPair1 = new Tuple<char, char>(secondCharImage, secondCharImage);
 
             var pair2 = new Tuple<char, char>(secondChar, secondChar);
-            var oldPair2 = new Tuple<char, char>(Substitution[secondChar], Substitution[secondChar]);
-            var newPair2 = new Tuple<char, char>(Substitution[firstChar], Substitution[firstChar]);
+            var oldPair2 = new Tuple<char, char>(secondCharImage, secondCharImage);
+            var newPair2 = new Tuple<char, char>(firstCharImage, firstCharImage);
 
-            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[newPair1]);
-            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[oldPair1]);
 
-            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[newPair2]);
-            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[oldPair2]);
+            var pair1Value = StatisticalInformation.BigrammMatrix[pair1];
+            var pair2Value = StatisticalInformation.BigrammMatrix[pair2];
+            var oldPair1ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair1];
+            var oldPair2ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair2];
+            var newPair1ValueSample = StatisticalInformation.BigrammMatrixSample[newPair1];
+            var newPair2ValueSample = StatisticalInformation.BigrammMatrixSample[newPair2];
+
+            result += Math.Abs(pair1Value - newPair1ValueSample);
+            result -= Math.Abs(pair1Value - oldPair1ValueSample);
+            result += Math.Abs(pair2Value - newPair2ValueSample);
+            result -= Math.Abs(pair2Value - oldPair2ValueSample);
 
 
 
 
             pair1 = new Tuple<char, char>(firstChar, secondChar);
-            oldPair1 = new Tuple<char, char>(Substitution[firstChar], Substitution[secondChar]);
-            newPair1 = new Tuple<char, char>(Substitution[secondChar], Substitution[firstChar]);
+            oldPair1 = new Tuple<char, char>(firstCharImage, secondCharImage);
+            newPair1 = new Tuple<char, char>(secondCharImage, firstCharImage);
 
             pair2 = new Tuple<char, char>(secondChar, firstChar);
-            oldPair2 = new Tuple<char, char>(Substitution[secondChar], Substitution[firstChar]);
-            newPair2 = new Tuple<char, char>(Substitution[firstChar], Substitution[secondChar]);
+            oldPair2 = new Tuple<char, char>(secondCharImage, firstCharImage);
+            newPair2 = new Tuple<char, char>(firstCharImage, secondCharImage);
 
-            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[newPair1]);
-            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[oldPair1]);
 
-            result += Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[newPair2]);
-            result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[oldPair2]);
+
+
+            pair1Value = StatisticalInformation.BigrammMatrix[pair1];
+            pair2Value = StatisticalInformation.BigrammMatrix[pair2];
+            oldPair1ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair1];
+            oldPair2ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair2];
+            newPair1ValueSample = StatisticalInformation.BigrammMatrixSample[newPair1];
+            newPair2ValueSample = StatisticalInformation.BigrammMatrixSample[newPair2];
+
+            result += Math.Abs(pair1Value - newPair1ValueSample);
+            result -= Math.Abs(pair1Value - oldPair1ValueSample);
+            result += Math.Abs(pair2Value - newPair2ValueSample);
+            result -= Math.Abs(pair2Value - oldPair2ValueSample);
+
+            char currentChar,currentCharImage;
+
 
 
             for (int i = 0; i < StatisticalInformation.Alphabet.Length; i++)
             {
-                if (StatisticalInformation.Alphabet[i] == firstChar|| StatisticalInformation.Alphabet[i]==secondChar)
+
+                currentChar = StatisticalInformation.Alphabet[i];
+                currentCharImage = Substitution[StatisticalInformation.Alphabet[i]];
+
+                if (currentChar == firstChar|| currentChar==secondChar)
                 {
                     continue;
                 }
 
-                pair1 = new Tuple<char, char>(firstChar, StatisticalInformation.Alphabet[i]);
-                oldPair1 = new Tuple<char, char>(Substitution[firstChar],Substitution[StatisticalInformation.Alphabet[i]]);
-                newPair1 = new Tuple<char, char>(Substitution[secondChar], Substitution[StatisticalInformation.Alphabet[i]]);
 
-                pair2 = new Tuple<char, char>(secondChar, StatisticalInformation.Alphabet[i]);
-                oldPair2 = new Tuple<char, char>(Substitution[secondChar],Substitution[StatisticalInformation.Alphabet[i]]);
-                newPair2 = new Tuple<char, char>(Substitution[firstChar], Substitution[StatisticalInformation.Alphabet[i]]);
+                pair1 = new Tuple<char, char>(firstChar, currentChar);
+                oldPair1 = new Tuple<char, char>(firstCharImage, currentCharImage);
+                newPair1 = new Tuple<char, char>(secondCharImage, currentCharImage);
 
-                result +=Math.Abs(StatisticalInformation.BigrammMatrix[pair1] -StatisticalInformation.BigrammMatrixSample[newPair1]);
-                result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] -StatisticalInformation.BigrammMatrixSample[oldPair1]);
-
-                result +=Math.Abs(StatisticalInformation.BigrammMatrix[pair2] -StatisticalInformation.BigrammMatrixSample[newPair2]);
-                result -=Math.Abs(StatisticalInformation.BigrammMatrix[pair2] -StatisticalInformation.BigrammMatrixSample[oldPair2]);
+                pair2 = new Tuple<char, char>(secondChar, currentChar);
+                oldPair2 = new Tuple<char, char>(secondCharImage, currentCharImage);
+                newPair2 = new Tuple<char, char>(firstCharImage, currentCharImage);
 
 
+                pair1Value = StatisticalInformation.BigrammMatrix[pair1];
+                pair2Value = StatisticalInformation.BigrammMatrix[pair2];
+                oldPair1ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair1];
+                oldPair2ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair2];
+                newPair1ValueSample = StatisticalInformation.BigrammMatrixSample[newPair1];
+                newPair2ValueSample = StatisticalInformation.BigrammMatrixSample[newPair2];
+
+
+                result += Math.Abs(pair1Value - newPair1ValueSample);
+                result -= Math.Abs(pair1Value - oldPair1ValueSample);
+                result += Math.Abs(pair2Value - newPair2ValueSample);
+                result -= Math.Abs(pair2Value - oldPair2ValueSample);
 
 
 
 
-                pair1 = new Tuple<char, char>( StatisticalInformation.Alphabet[i], firstChar);
-                oldPair1 = new Tuple<char, char>(Substitution[StatisticalInformation.Alphabet[i]], Substitution[firstChar]);
-                newPair1 = new Tuple<char, char>(Substitution[StatisticalInformation.Alphabet[i]], Substitution[secondChar]);
 
-                pair2 = new Tuple<char, char>( StatisticalInformation.Alphabet[i], secondChar);
-                oldPair2 = new Tuple<char, char>( Substitution[StatisticalInformation.Alphabet[i]], Substitution[secondChar]);
-                newPair2 = new Tuple<char, char>( Substitution[StatisticalInformation.Alphabet[i]], Substitution[firstChar]);
 
-                result += Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[newPair1]);
-                result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair1] - StatisticalInformation.BigrammMatrixSample[oldPair1]);
+                pair1 = new Tuple<char, char>(currentChar, firstChar);
+                oldPair1 = new Tuple<char, char>(currentCharImage, firstCharImage);
+                newPair1 = new Tuple<char, char>(currentCharImage, secondCharImage);
 
-                result += Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[newPair2]);
-                result -= Math.Abs(StatisticalInformation.BigrammMatrix[pair2] - StatisticalInformation.BigrammMatrixSample[oldPair2]);
+                pair2 = new Tuple<char, char>(currentChar, secondChar);
+                oldPair2 = new Tuple<char, char>(currentCharImage, secondCharImage);
+                newPair2 = new Tuple<char, char>(currentCharImage, firstCharImage);
+
+
+                pair1Value = StatisticalInformation.BigrammMatrix[pair1];
+                pair2Value = StatisticalInformation.BigrammMatrix[pair2];
+                oldPair1ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair1];
+                oldPair2ValueSample = StatisticalInformation.BigrammMatrixSample[oldPair2];
+                newPair1ValueSample = StatisticalInformation.BigrammMatrixSample[newPair1];
+                newPair2ValueSample = StatisticalInformation.BigrammMatrixSample[newPair2];
+
+
+                result += Math.Abs(pair1Value - newPair1ValueSample);
+                result -= Math.Abs(pair1Value - oldPair1ValueSample);
+                result += Math.Abs(pair2Value - newPair2ValueSample);
+                result -= Math.Abs(pair2Value - oldPair2ValueSample);
 
             }
 
