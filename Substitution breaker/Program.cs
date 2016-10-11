@@ -17,17 +17,20 @@ namespace Substitution_breaker
          //  var gramms2 = SampleSerializator.GetBigramms();
 
 
-         
-      
 
 
 
+            string line;
+            using (StreamReader reader=new StreamReader("text.txt"))
+            {
+                line = reader.ReadToEnd().ToLower();
+            }
 
-            var breaker = new Breaker(100,0.81,Language.English);
+            var breaker = new Breaker(100,Language.English);
             var timer=new Stopwatch();
             timer.Start();
             var solution = breaker.FindKey
-                (_text);
+                (line);
             timer.Stop();
             Console.WriteLine(timer.Elapsed);
 

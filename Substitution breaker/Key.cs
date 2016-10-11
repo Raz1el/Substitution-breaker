@@ -28,12 +28,15 @@ namespace Substitution_breaker
             }
         }
 
-        public Key(Dictionary<char,char> substitution,DistributionData statisticalInfo)
+        public Key(Dictionary<char,char> substitution,DistributionData statisticalInfo):this(substitution,statisticalInfo,-1)
+        {
+
+        }
+        Key(Dictionary<char, char> substitution, DistributionData statisticalInfo,double fitness)
         {
             Substitution = substitution;
             StatisticalInformation = statisticalInfo;
-            _fitness = -1;
-
+            _fitness = fitness;
         }
 
         public double FitnessFunction()
@@ -199,7 +202,7 @@ namespace Substitution_breaker
                     if (fitness < Fitness)
                     {
                         Swap(j, j + i, Substitution);
-                        return new Key(Substitution, StatisticalInformation);
+                        return new Key(Substitution, StatisticalInformation,fitness);
                     }
                 }
             }

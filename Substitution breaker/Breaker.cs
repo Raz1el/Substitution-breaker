@@ -9,8 +9,6 @@ namespace Substitution_breaker
 {
     public class Breaker
     {
-        const double DefaultSuccesValue = 0.95;
-
         double _successValue;
         Language _language;
 
@@ -18,8 +16,8 @@ namespace Substitution_breaker
         KeyManager _keyManager;
         int _iterationsCount;
         int _populationSize;
-
-
+        private int v;
+        private Language english;
 
         public Breaker(int iterationsCount,double successValue,Language language)
         {
@@ -28,8 +26,9 @@ namespace Substitution_breaker
             _language = language;
         }
 
-     
-
+        public Breaker(int iterationsCount, Language language):this(iterationsCount,0,language)
+        {
+        }
 
         public Tuple<Key,string> FindKey(string text)
         {
