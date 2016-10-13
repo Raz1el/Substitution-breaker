@@ -25,8 +25,9 @@ namespace Substitution_breaker
         public DistributionData(Language language, Dictionary<char, double> onegramms, Dictionary<Tuple<char, char>, double> bigramms)
         {
             Alphabet=AlphabetHelper.GetAlphabet(language);
-            LettersDistributionSample = SampleSerializator.GetOnegramms();
-            BigrammMatrixSample = SampleSerializator.GetBigramms();
+            var sampleSerializator = new SampleSerializator(language);
+            LettersDistributionSample = sampleSerializator.GetOnegramms();
+            BigrammMatrixSample = sampleSerializator.GetBigramms();
             LettersDistribution = onegramms;
             BigrammMatrix = bigramms;
             BigrammArray = BigrammMatrix.ToArray();

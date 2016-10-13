@@ -13,20 +13,15 @@ namespace Substitution_breaker
         
         static void Main(string[] args)
         {
-         //var gramms1 = SampleSerializator.GetOnegramms();
-         //  var gramms2 = SampleSerializator.GetBigramms();
+            
 
+            string line = _rustext;
+            //using (StreamReader reader=new StreamReader("text.txt"))
+            //{
+            //    line = reader.ReadToEnd().ToLower();
+            //}
 
-
-
-
-            string line;
-            using (StreamReader reader=new StreamReader("text.txt"))
-            {
-                line = reader.ReadToEnd().ToLower();
-            }
-
-            var breaker = new Breaker(100,Language.English);
+            var breaker = new Breaker(1000,Language.Russian);
             var timer=new Stopwatch();
             timer.Start();
             var solution = breaker.FindKey
@@ -50,6 +45,8 @@ namespace Substitution_breaker
 
 
         }
+
+        static string _rustext = "ЯРЯЩЮфЮйАИЯЮЕВЫБКЫЙЮЪШЭКЭЦИРЪЛЯЭЩББТЮНБЯАЖЙБФБИИЮГВДОЯЭЙЮФЫЬЮЕИБИРНЭКЭЮВЮЯЮЕЙЮЕЙИЮТЮИБШБФБИЯЮТШРЯЮИПАКЫЩЯРМАИБВБПРФЫИЮПОЮШЭКАЙЮБЕИБОИРЩЛБОБГВЮЕШЭШЮНЮТЮЕИБШРФЫИБЕВЮЩЙЮОНБОЫЯРЯАтнръошбоаиряэщоржцрзлборбОЯНДМЮЛИАЯАЛБЦЭОЯАНВАПАЦРЮТНРШЮЕЯОЮОДЬНРОЙЮЕАФАФЪЬЮЛИАЯГИБВЮЙИЪАВЮЙИАОЫИБИРШЮЯРЯЩЛБОФЮЦШБЩЫАЯРЯЬБЩВНАЪОИЮЮОШДЖРБОЭЩОРФЮБОБФЮРВНЮЖЮМАБШЭЙРЪОЩЙЭОИЮЛБНИЮОЮФЫЯЮЛПБНРЮЛШЮЛБФРРИИРРЖЙРОЮЛРГВЫЪЦРНРЦЮНБИИДЕШЮЙЦРЦФЭЪМАЦИЫЙЮЪЦРЮШАИЮПБЩОЛЮЛШЛЮБЙАЦРОБЬГГВЫЪЦРФЮМЫЙБИГВНБШРЛКАЖТЭЬЦРЙБНОЛДЕЖЮФЮШТФРЦЦРОЮПОЮЙАНМБЩОЮЯАТНЭЬЦРОЮПОЮЬЮТИБЩВРЩРИИРРЖЙРОЮЛРЯЮТШРГИЮПЫЪМШЭББВНАЖЮШРМАЦИЫЯРМБОЩГЛАЩАОИРЛЮФЮЩЯБПОЮВЮПБЩОАПОЮЪИЮЩОЫПОЮЩЛЮЬЮШРВНБШЙАФЮЕТЮЩОЫБЕЩШЭШЮПЯЮЕЛНЭЯБАЛЮОЛЮКФРЮОЯАИЭЛВЮЯНДЛРФЮЛИАЙРОБФЫИЮЛЦТФГИЭФРИРЙБИГБЕТЮЛЮНЪОДФЫШРИОЭШАЯОЮЛРФРЩОНРИАЗДРШРЮОЛБПРБОГРИИРРЖЙРОЮЛРЙЭЦР".ToLower();
         static string _text1= "zphqaqpavqzmjmhmykzhmiqpsnpbhsimapprhmyzhmiqpsnpbhszlvqmyiuvppihszlvqmyiuvppimyizgkymyiupyqmhkyindmnzoqmgmyindqumlgkzznrpytjpsvpmizkfnqqynpymyiodmnipjpstqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprqkomzuprypyqhprykytodqyndqzsyikiynzdkyqkaklgqisahjzdpeqvmyikomvgqinpndqhkyqkvpmiqizkfnqqynpypbyshuqrykyqlpmvmyindqznrpytupzzzmkioqvvuvqzzmhmzpsvjpsvpmizkfnqqynpymyiodmnipjpstqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprqoqvvkbjpszqqhqmlphkyuqnnqrznqamzkiqmvpnpbhqyikiynmvpnpbhqyikqipyqbkznkzkrpyndqpndqrpbznqqvkbndqrktdnpyqipyntqnjpsndqyndqvqbnpyqokvvpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprq";
         static string _text = "pehjdziavahrazketakefakgayacaypzjpkefakgayjlvjprqyajllpsaalkgjkqilerqdptarksyqadzqujdktalqacakgqruehlztakgaadzqkleemrjrkgehfgpehjyalakkqdejdzqsqkryajlvallqzedkvjdkkemdevzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrehyiaieyqarkgapujdtaqdcqkqdfthkreiajyajlkefakgayiqfglpsyqfgkadqdfjrvazqatekgphehjdzqvqkggajzqdipgjdzrqrqkjdzuypzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrqkrjlladzqdfqfekkjrkennyakadzqdfvgevajyapehjdziaqujdraahrzpqdfjyavazedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrzedkkalliaujhraqkghykrqmdevvgjkpehjyarjpqdfrenlajrarkenaonljqdqdfzedkrnajmzedkrnajmzedkrnajmdeqmdevvgjkpehyakgqdmqdfjdzqzedkdaazpehyyajredrqmdevpehfeezqmdevpehfeezqmdevpehyajlfeezeg";
     }

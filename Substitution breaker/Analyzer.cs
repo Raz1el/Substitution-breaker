@@ -8,18 +8,24 @@ namespace Substitution_breaker
 {
     public class Analyzer
     {
-       
-        public DistributionData Analyze(string text,Language language)
+        private char[] _alphabet;
+        public Language Language { get; }
+
+        public Analyzer(Language language)
         {
-            
-       
-            var data = new DistributionData(language, CountOnegramms(text), CountBigramms(text));
+            Language = language;
+            _alphabet = AlphabetHelper.GetAlphabet(language);
+        }
+
+        public DistributionData Analyze(string text)
+        {                 
+            var data = new DistributionData(Language, CountOnegramms(text), CountBigramms(text));
             return data;
         }
 
-        private Dictionary<char,double> CountOnegramms(string text)
+        public Dictionary<char,double> CountOnegramms(string text)
         {
-            var distribution = GetLettersDistributionBase(AlphabetHelper.EnglishAlphabet);
+            var distribution = GetLettersDistributionBase(_alphabet);
             var iters = text.Length;
             for (int i = 0; i < text.Length; i++)
             {
@@ -48,9 +54,9 @@ namespace Substitution_breaker
             return temp;
         }
 
-        private Dictionary<Tuple<char,char>,double> CountBigramms(string text)
+        public Dictionary<Tuple<char,char>,double> CountBigramms(string text)
         {
-            var distribution = GetBigrammsDistributionBase(AlphabetHelper.EnglishAlphabet);
+            var distribution = GetBigrammsDistributionBase(_alphabet);
             var iters = text.Length;
             for (int i = 0; i < text.Length-1; i++)
             {                
@@ -71,7 +77,7 @@ namespace Substitution_breaker
 
         private Dictionary<Tuple<char,char>,int> GetBigrammsDistributionBase(IList<char> alphabet)
         {
-            var bigramms = GetBigramms(AlphabetHelper.EnglishAlphabet);
+            var bigramms = GetBigramms(_alphabet);
             var temp = new Dictionary<Tuple<char, char>, int>();
             foreach (var bigramm in bigramms)
             {

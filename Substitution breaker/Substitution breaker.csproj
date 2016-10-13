@@ -75,6 +75,16 @@
     <Content Include="samples\выборка\Scott_A_Legend.txt" />
     <Content Include="samples\выборка\Scott_The_Surgeons.txt" />
     <Content Include="samples\выборка\Twain_The_Tragedy.txt" />
+    <Content Include="samples\рувыборка\Bulgakov_Master_i_Margarita.txt" />
+    <Content Include="samples\рувыборка\Dostoevskyi_Bratjya_Karamazovi.txt" />
+    <Content Include="samples\рувыборка\Dostoevskyi_Prestuplenie_i_nakazanie.txt" />
+    <Content Include="samples\рувыборка\Gogol_Mertvye_dushy.txt" />
+    <Content Include="samples\рувыборка\Ilf_i_Petrov-zolotoi_telenok.txt" />
+    <Content Include="samples\рувыборка\Ilf_Petrov_12_stulev.txt" />
+    <Content Include="samples\рувыборка\Lermontov_Geroi_nashego_vremeni.txt" />
+    <Content Include="samples\рувыборка\Tolstoy_Anna_Karenina.txt" />
+    <Content Include="samples\рувыборка\Tolstoy_Voina_i_mir.txt" />
+    <Content Include="samples\рувыборка\Turgenev_Otcy_i_deti.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

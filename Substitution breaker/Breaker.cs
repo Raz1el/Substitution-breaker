@@ -32,8 +32,8 @@ namespace Substitution_breaker
 
         public Tuple<Key,string> FindKey(string text)
         {
-            var analyzer=new Analyzer();
-            var statisticalInfo = analyzer.Analyze(text,_language);
+            var analyzer=new Analyzer(_language);
+            var statisticalInfo = analyzer.Analyze(text);
             _keyManager =new KeyManager(statisticalInfo);
             _geneticAlgorithm=new GeneticAlgorithm<Key> (_keyManager);
             var minFitness = double.MaxValue;
