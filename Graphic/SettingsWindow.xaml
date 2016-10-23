@@ -8,9 +8,16 @@
         Title="Settings" Height="300" Width="250" ResizeMode="NoResize" >
     <Canvas Background="White">
         <Label x:Name="NumberOfAttemptsLabel" Content="Количество попыток" Height="27" Canvas.Left="10" Canvas.Top="10" Width="158" Foreground="Black" FontWeight="Bold"/>
-        <TextBox x:Name="NumberOfAttemptsTextBox" SelectedText="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="27" Canvas.Left="173" TextWrapping="Wrap" Text="" Canvas.Top="10" Width="60"/>
+        <TextBox x:Name="NumberOfAttemptsTextBox" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="27" Canvas.Left="173" TextWrapping="Wrap" Text="" Canvas.Top="10" Width="60"/>
         <Label x:Name="ExpamplesLabel" Content="Примеры" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="10" Canvas.Top="78" Width="223" FontWeight="Bold"/>
         <Button x:Name="ExecuteButton" Content="OK" Height="26" Click="ExecuteButton_OnClick"  Canvas.Left="75" Canvas.Top="234" Width="93" FontWeight="Bold"/>
+        <Label x:Name="Sample36Label" PreviewMouseLeftButtonUp="Sample36Label_OnPreviewMouseLeftButtonUp" Content="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="10" Canvas.Top="107" Width="223" FontWeight="Bold"/>
+        <Label x:Name="Sample371Label" PreviewMouseLeftButtonUp="Sample371Label_OnPreviewMouseLeftButtonUp" Content="37.1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="10" Canvas.Top="141" Width="52" FontWeight="Bold"/>
+        <Label x:Name="Sample372Label" PreviewMouseLeftButtonUp="Sample372Label_OnPreviewMouseLeftButtonUp" Content="37.2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="62" Canvas.Top="141" Width="52" FontWeight="Bold"/>
+        <Label x:Name="Sample373Label" PreviewMouseLeftButtonUp="Sample373Label_OnPreviewMouseLeftButtonUp" Content="37.3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="128" Canvas.Top="141" Width="52" FontWeight="Bold"/>
+        <Label x:Name="Sample374Label" PreviewMouseLeftButtonUp="Sample374Label_OnPreviewMouseLeftButtonUp" Content="37.4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="180" Canvas.Top="141" Width="52" FontWeight="Bold"/>
+        <Label x:Name="Sample381Label" PreviewMouseLeftButtonUp="Sample381Label_OnPreviewMouseLeftButtonUp" Content="38.1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="8" Canvas.Top="175" Width="104" FontWeight="Bold"/>
+        <Label x:Name="Sample382Label" PreviewMouseLeftButtonUp="Sample382Label_OnPreviewMouseLeftButtonUp" Content="38.2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="127" Canvas.Top="175" Width="106" FontWeight="Bold"/>
 
     </Canvas>
 </Window>
