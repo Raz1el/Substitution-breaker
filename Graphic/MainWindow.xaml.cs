@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -23,7 +25,24 @@ namespace Graphic
     public partial class MainWindow : Window
     {
         private Breaker _breaker;
-        
+        private BreakerLanguage _language;
+        private int _attempts;
+        public int Attempts { get { return _attempts; } set { _attempts = value; _breaker=new Breaker(_attempts,_language); } }
+
+        private static string sample36 =
+            "ШЙФЩЪСЮУПЫФПХЗЭЧЙФЙХЙЗГЯЕВЕФНЙЪСЕУШДЗЭДФСЬЧЙУСШЙФФПДЙНДЧЕВЙФРПВЙФЙБРПЕЪЕЙФЩЪЕЫЙФДФДГЧСЫKГСЩСШСЧЕЭKСМНБСЗЭСДШЗВСНСЩЧЙФЕЫЕШЙЮЗKЫЙЦДШЗДЩСБДВЪЙЧЙРЕДАЗШСЕХЯФЕШДЧЗЕЭДЭЗВЕХГСУФЙФЕАСГЧДЗЭЯГЪДФЕЕЕФЙВЙУЙФЕЕВЙОБПАЕУФЕХЬДУЯЗЪСШФСУФЙДЭЫЭСЪФЭСЪЗЭСАЙШЭСЧЧСНЙФЙШСАФЙЕНЕЧНФСЩЕДЪЕДЩСЫЕЭЙЪЕБЧЯЩСАШСГЧСЗВСДВЭСФЙЗЪПЁЙФСЬЙГЫДХСШДДЗЪЕШЙНГСШДУДЭЗЗСЬДЗДБФЕВСНЭСШПЗНСОДЭДГДЧДНСЪШЕЭKЗЮСШБФЙЬСВСШДЕЙЬЯФЕФДГСЩСШСЧЕЭKСФПФДЁФЕХГЕЗЙЭДЪЮХИНЕЩЧЙФЭЙХЫЭСВЙЗЙДЭЗЮГЯЁВЕФЙЭСГСУФЙФЕЮВЙВГЧЙШЕЪСЗВЯБФПЭДНЯБЕШЕЭДЪKФДДЫЭСЯОДЗГДЧШПХНЕФЯЭНСДЩСГЧЕДУБЙШВЙФЙБЯДЦДШЙИЧСГСЧЭЯНСФЧДЙЪЮЮЯЗЪПЁЙЪЗЭЧСМПДШЩДФЕЮСФДЩЕФЙЕУЯЗЭЗСШЗДНФДЧСЗЗЕАЗВСЩСЕЪЕЗСШДЭЗВСЩСИНЕЩЧЙФЭЙЕБЙОДЫДЪСШДВЙФДЕНДШЁДЩСЭСЩБЙШБДШЮФСЗЭСНЩСБЯФЕВЙВЕХЗШЮУДАЗЭЙВЕНЕИНЕЩЧЙФЭЙНЕЙГЧСМДЗЗСЧЙНЙЭДНЙЭЕВЕЯФЕШДЧЗЕЭДЭЙНЙВЩЕЪЪШПХСБРЙЕУЖОФСАЙМЧЕВЕГСЪЯЫЕШЁДЩССЬЧЙУСШЙФЕДШВДНЬЧЕБОДБЕСФЙЩЕЪKБДФХДАУЙЧЙЗЗВЙОЯСЬСШЗДНГСГСЧЮБВЯЮГСЪЯЫЕЪГЧЕЩЪЙЁДФЕДГЧСМДЗЗСЧЗВСАЫДЭПФЙЧЙАФЙЕВЙФЭПЩЯГЭЙГЧЕДХЙЭKФЙБШЙНДЗЮРЙШШЕФФЕГДЩЕЗСШНДЗЭФСГСЧЙЬСЭЙЭKФЙБЧЮБСНФЙЯЫФПХ"
+                .ToLower().Replace('k', 'к');
+
+        private static string sample371 = "ПЩИМИЙЛЬМЪГПРЧГГЪЖМГХЪЧДЛИКЩПЛПАБКОЬКЛШГУИЖИГГЪЖБРЫЗИЙЛЯЛЕТЙСЩЪДОДСЕЖЦЫКЕТРПЭМЙПАЪЪСЭЫАЦМОЫРЛДЦЫАИЖЖЫЫРЧЛЯЛУНЛЖЯЖЬЯЫКЦТЙЖОЯГЫДВЪЖЯСАЪЧРИЛРЕРХЛЙШТЦЩЙЫНСИИДФЦПЩЪАДЪИПЛШЛХКЛШЦЕЖЫКЛХЪОУПРСОДОРТЮУФИДРЦЯЖИТАКЦСЩСРЛЧИШЛЦЪАДЬХЧГБЪЪФЖВКЦТМАЛМСАВЮХЖАКЛЙГОЬГРТЮРНЩДЛШЦМСАГПФСОГНЙСНДГРТОГЗИУЦИНШЧФБЗЙЖЫКВЖБАВЪПУЛЭАЧЦЛМЛЙГОСГУМТАТФЭРУЪЖЕПУПРСЪАЭЯЛГУЛЩЪВХНГЖЪХЛМШИЫЖРЫЬВЖНХТУПМЙЛКЛУМЛЦБИИЮВВНЙОВЕЦТЙШНЬГРГКИФЬЫЫЙЖЙШНМЦЮЫЫИЧТЭОРЕАВЪЖХЫЧАЧЕЯСЯЛФЪЫБЗСВСАЧМИДЬИЙИФЭЩЧРКЪИПГБККДЯЧКЩООЫИНКЛШЪЛБГЭЪЛБГЩЖЛЧЛГОВЙРВЩШСОУТЩЙЛГПШЪЪЫНДЕГВБВЪОЯНЙМЮЧРЖХРЖПРЖААЪЛБГОПСЪЙАНМТОСЬЕТЖДЫИЕОЧАХТЮСЖЛЖНСДПЖГУЪЖИЮДЪЛИЕССЕЛЮДЮЖШГЫРЛМРИОТМНСРЛИРУЮЖШТФПМЖАКАЛДЕЬЫЦЖМСАНПГБДЛКЕЬЫЦТЩЮБГЖЬВЗЙСЫХЛЙСПППЬОЬСАЛЕТУЛРЕТЖОРДГЫГГЖАГПЕЧГНБИУИОПТДГДЫКПГЯЛЧЦАСБЛИТФБЛЩЪДКЙЛМВЪИПЛШОЬТНВКУТЩОБЖЧОЬГЦШРМКЦЪЗДЯЖИРЭЩИДРППМЕЙСГЦШРУПЦЛНИЛЯЖОДПЕМНВВЖШЕЫЬЧУВСГРЕАВШИЧГУЖЖФОВЖЖФОЩАЧЗЮВЫМСВЩАЧЗЮВЫМСВУПДЕРПЪЖИРХНМЧФКЛЦЦПХЦУУТЯБЛПОСЫМЙТКНРТНИТЙСБХЛТЧПЭПВЪВЭНФХГЖИЧХГЖИЧМНВВЖШГУКЩЙГЯПЕЖЪГЫЧЙЛОПСЪНИПМЖЦСРЖМРЖЦЕЖЛХЛТЧФШОЙООЫЖРИТПЛЙИГШЪНШЫЮЕЩЪМВЪЛХЖЫАЖЦГАШИШНСЬЪХЪНБЭЪОСЫЛИРУЭЙЭТИЯЧФТХЫИФЕВЪЙЖОДЬЪХЙПРЙЫЕСЫВСУУПТЦЪДФЪСЪДСЛМРУОИЙЛШЪЧРФСДКЕИШЯЙТОДАЕЪЧХЛСЪО";
+
+        private static string sample372 =
+            "ЕАСЗУВНУВРДУАЙЪБВФЪЙХТВАЙЪБВФЪЙЪКВЙПЪАХБЕУДАСЗТДЗХРУСТМЙЪФЪЙХЭУХЦХДРЩХМХУЕЩПУДТХБЕХМПЕУДУАСЗЯЩХЭИЗВЮЩПЖЕТХЗХФАСЗЩХБФВЪБЗГМЮЦЙЪМДЗЪЮХЮУСЮЗХИУХЮУВЮЩЪЮЩГРВЗЪЦЪЙЦЪИТДЙНЗСЭБЙГУЩЙДАЕЩВИЦВЗСИВЗЪЙПЕУХБЙГНЪЗЪЩВРЦЪРДЙДНЦЙВЭВЕЧХФЪЗУВФЦХЩЗХИВУХТМХЦЙЪЦЪИВЗФВИВЭФВИВЭЪТХЛДЩЮЩВЗАСЕТДЙНВИКДТЦХБФВАХФЪУЪНЩДЧЙДАЕЩЦХТУДМХЩЙВМГУДМХФУЕЗЮЕБХЗГАХБЗВНЪГБЗХИВЩУДФДЫДИЪЮЦВНВЗХУИУЕЩУХИТХЪБЗВНВЮТХЩЙЕИГМХЙЪМХФМХЗХЭДБХАГЫЗВЩВАЗДЮУГЗХЩЩХРДУУСЭЩХМХЙУДХЩГБЙХНСХЙХАДЗЕЩВТЛЪНУПИЮДБФВУВИХЗХЮЦДИЦХУКДЦХУКХИФХЫЗХАФХФДЗВНВАГЙУЪЦАСЗИТХДЭЙГЦДУХЮЩВЗХЮЩЙВЫУХХЩЩХБХТУДРЩХЯЩХАСЗЩХИВЙЪШТХЭЕЪЮДБХФУЕЕЮУХМХТУЖЮГЙХИСЭИНБЗЕФДБХМЙЕТХЭФЙГНПЕТХЪИЗЪЧЪДЮЙХЦЪИСАСЗЪЮЪЗПУСТЪЗЖФПТЪЮМВЮЪАХИВТНВЩДГЙХЦЪГЙХЦЪБУДИВЪЗЖАИЪВУВЩХЗЪЭЛЪБГЗЪУ";
+        private static string sample373 = "ДЮМНЗРЛЮЬДСЬЗЕЮТЪШАЬЛРЗПЗВЮНМЮЬЛСАПСЕСЖДШЩЭНЗЙШНТЩЬТВЮРКАРШБЗПЛШАЬЛРЗЮЛВТЬЬДЮАЖСВДРШЮЛЙСЛЗЙДЮМНЗЧВШПСРЬДЗИЬЛЮЙШЖЗБЗЪКРРСЙШХШСЬРЮСДЗДЮЧУИПСРОЗИЪЙТНПШЖЗПСБПЗЙЗДЛЮЪСВСЛССЕПСМЮЙЮЬЪКЙЮПБРЗЙТЛСОПЮЮПМЮРЮВШЙШНШЬЯНЗЮЬЛЗРУЬРЮАДВЗАМЙТЩЮАШМВСОПКАЮЬЛЗРУВЮЬЬШЯПЗРЬСМНЗИДВЮРУЮЛВТДЛРЮШЩЮЛЕЮЯШБЬСВНЖЗРКПТХСВПКАЬЛКНИПЮРКЕШЕСПСЕЧЮДВЮЯЪЮЙУЧЮВЗЭСПШАШЮЪШНПЮВЗРПЮНТОПЮШЬЧЮДЮАПЮВТДЗЕШИБЗЕДПТЙЗЬЙТЩХЛЮЪЫЛЮАВСХУЯПСНЮЬЛЮАПЮАПСЮЬДРСВПШЙЬИЬДЮВЪПКАНТЩЗППЗЗЩЕЗЛЮРЗХСВПССЛНЮВЮМЗЧВШЕЮВЬДЮМЮЬЗНЗЭСЙЛКШЬРСЭШГЮПЗВШИЮХСПУЬЧЮДЮАПЗИЛЮЙУДЮПСПЗНЮЬЮЕПЮЯЮПСЕМЮРЮВШЛУЛКЕШЙКАШРСВПКАЕКЪТНСЕНВТБУИЕШМТЙИЛУЖСЙЮРЗЛУЬИЬЛЗВСЛУШЙСМДШСЕСЬИЖКЪТНТЛПЗНПЗЕШДЗДЬПСЭПКСБРСБНКЙСЛСЛУЗППЗЗЩЕЗЛЮРЗЮНПЗШБЧСЬСПДЮЛЮВКСШЬЧЮЙПИЙРСВЛШПЬДША";
+        private static string sample374 = "ЯРЯЩЮФЮЙАИЯЮЕВЫБКЫЙЮЪШЭКЭЦИРЪЛЯЭЩББТЮНБЯАЖЙБФБИИЮГВДОЯЭЙЮФЫЬЮЕИБИРНЭКЭЮВЮЯЮЕЙЮЕЙИЮТЮИБШБФБИЯЮТШРЯЮИПАКЫЩЯРМАИБВБПРФЫИЮПОЮШЭКАЙЮБЕИБОИРЩЛБОБГВЮЕШЭШЮНЮТЮЕИБШРФЫИБЕВЮЩЙЮОНБОЫЯРЯАТНРЪОШБОАИРЯЭЩОРЖЦРЗЛБОРБОЯНДМЮЛИАЯАЛБЦЭОЯАНВАПАЦРЮТНРШЮЕЯОЮОДЬНРОЙЮЕАФАФЪЬЮЛИАЯГИБВЮЙИЪАВЮЙИАОЫИБИРШЮЯРЯЩЛБОФЮЦШБЩЫАЯРЯЬБЩВНАЪОИЮЮОШДЖРБОЭЩОРФЮБОБФЮРВНЮЖЮМАБШЭЙРЪОЩЙЭОИЮЛБНИЮОЮФЫЯЮЛПБНРЮЛШЮЛБФРРИИРРЖЙРОЮЛРГВЫЪЦРНРЦЮНБИИДЕШЮЙЦРЦФЭЪМАЦИЫЙЮЪЦРЮШАИЮПБЩОЛЮЛШЛЮБЙАЦРОБЬГГВЫЪЦРФЮМЫЙБИГВНБШРЛКАЖТЭЬЦРЙБНОЛДЕЖЮФЮШТФРЦЦРОЮПОЮЙАНМБЩОЮЯАТНЭЬЦРОЮПОЮЬЮТИБЩВРЩРИИРРЖЙРОЮЛРЯЮТШРГИЮПЫЪМШЭББВНАЖЮШРМАЦИЫЯРМБОЩГЛАЩАОИРЛЮФЮЩЯБПОЮВЮПБЩОАПОЮЪИЮЩОЫПОЮЩЛЮЬЮШРВНБШЙАФЮЕТЮЩОЫБЕЩШЭШЮПЯЮЕЛНЭЯБАЛЮОЛЮКФРЮОЯАИЭЛВЮЯНДЛРФЮЛИАЙРОБФЫИЮЛЦТФГИЭФРИРЙБИГБЕТЮЛЮНЪОДФЫШРИОЭШАЯОЮЛРФРЩОНРИАЗДРШРЮОЛБПРБОГРИИРРЖЙРОЮЛРЙЭЦР";
+        private static string sample381 = @"pehjdziavahrazketakefakgayacaypzjpkefakgayjlvjprqyajllpsaalkgjkqilerqdptarksyqadzqujdktalqacakgqruehlztakgaadzqkleemrjrkgehfgpehjyalakkqdejdzqsqkryajlvallqzedkvjdkkemdevzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrehyiaieyqarkgapujdtaqdcqkqdfthkreiajyajlkefakgayiqfglpsyqfgkadqdfjrvazqatekgphehjdzqvqkggajzqdipgjdzrqrqkjdzuypzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrqkrjlladzqdfqfekkjrkennyakadzqdfvgevajyapehjdziaqujdraahrzpqdfjyavazedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrzedkkalliaujhraqkghykrqmdevvgjkpehjyarjpqdfrenlajrarkenaonljqdqdfzedkrnajmzedkrnajmzedkrnajmdeqmdevvgjkpehyakgqdmqdfjdzqzedkdaazpehyyajredrqmdevpehfeezqmdevpehfeezqmdevpehyajlfeezeg";
+
+        private static string sample382 =
+            "zphqaqpavqzmjmhmykzhmiqpsnpbhsimapprhmyzhmiqpsnpbhszlvqmyiuvppihszlvqmyiuvppimyizgkymyiupyqmhkyindmnzoqmgmyindqumlgkzznrpytjpsvpmizkfnqqynpymyiodmnipjpstqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprqkomzuprypyqhprykytodqyndqzsyikiynzdkyqkaklgqisahjzdpeqvmyikomvgqinpndqhkyqkvpmiqizkfnqqynpypbyshuqrykyqlpmvmyindqznrpytupzzzmkioqvvuvqzzmhmzpsvjpsvpmizkfnqqynpymyiodmnipjpstqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprqoqvvkbjpszqqhqmlphkyuqnnqrznqamzkiqmvpnpbhqyikiynmvpnpbhqyikqipyqbkznkzkrpyndqpndqrpbznqqvkbndqrktdnpyqipyntqnjpsndqyndqvqbnpyqokvvpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprq";
         static string _rustext = "ЯРЯЩЮфЮйАИЯЮЕВЫБКЫЙЮЪШЭКЭЦИРЪЛЯЭЩББТЮНБЯАЖЙБФБИИЮГВДОЯЭЙЮФЫЬЮЕИБИРНЭКЭЮВЮЯЮЕЙЮЕЙИЮТЮИБШБФБИЯЮТШРЯЮИПАКЫЩЯРМАИБВБПРФЫИЮПОЮШЭКАЙЮБЕИБОИРЩЛБОБГВЮЕШЭШЮНЮТЮЕИБШРФЫИБЕВЮЩЙЮОНБОЫЯРЯАтнръошбоаиряэщоржцрзлборбОЯНДМЮЛИАЯАЛБЦЭОЯАНВАПАЦРЮТНРШЮЕЯОЮОДЬНРОЙЮЕАФАФЪЬЮЛИАЯГИБВЮЙИЪАВЮЙИАОЫИБИРШЮЯРЯЩЛБОФЮЦШБЩЫАЯРЯЬБЩВНАЪОИЮЮОШДЖРБОЭЩОРФЮБОБФЮРВНЮЖЮМАБШЭЙРЪОЩЙЭОИЮЛБНИЮОЮФЫЯЮЛПБНРЮЛШЮЛБФРРИИРРЖЙРОЮЛРГВЫЪЦРНРЦЮНБИИДЕШЮЙЦРЦФЭЪМАЦИЫЙЮЪЦРЮШАИЮПБЩОЛЮЛШЛЮБЙАЦРОБЬГГВЫЪЦРФЮМЫЙБИГВНБШРЛКАЖТЭЬЦРЙБНОЛДЕЖЮФЮШТФРЦЦРОЮПОЮЙАНМБЩОЮЯАТНЭЬЦРОЮПОЮЬЮТИБЩВРЩРИИРРЖЙРОЮЛРЯЮТШРГИЮПЫЪМШЭББВНАЖЮШРМАЦИЫЯРМБОЩГЛАЩАОИРЛЮФЮЩЯБПОЮВЮПБЩОАПОЮЪИЮЩОЫПОЮЩЛЮЬЮШРВНБШЙАФЮЕТЮЩОЫБЕЩШЭШЮПЯЮЕЛНЭЯБАЛЮОЛЮКФРЮОЯАИЭЛВЮЯНДЛРФЮЛИАЙРОБФЫИЮЛЦТФГИЭФРИРЙБИГБЕТЮЛЮНЪОДФЫШРИОЭШАЯОЮЛРФРЩОНРИАЗДРШРЮОЛБПРБОГРИИРРЖЙРОЮЛРЙЭЦР".ToLower();
         static string _text1 = "zphqaqpavqzmjmhmykzhmiqpsnpbhsimapprhmyzhmiqpsnpbhszlvqmyiuvppihszlvqmyiuvppimyizgkymyiupyqmhkyindmnzoqmgmyindqumlgkzznrpytjpsvpmizkfnqqynpymyiodmnipjpstqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprqkomzuprypyqhprykytodqyndqzsyikiynzdkyqkaklgqisahjzdpeqvmyikomvgqinpndqhkyqkvpmiqizkfnqqynpypbyshuqrykyqlpmvmyindqznrpytupzzzmkioqvvuvqzzmhmzpsvjpsvpmizkfnqqynpymyiodmnipjpstqnmypndqrimjpviqrmyiiqqaqrkziqunpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprqoqvvkbjpszqqhqmlphkyuqnnqrznqamzkiqmvpnpbhqyikiynmvpnpbhqyikqipyqbkznkzkrpyndqpndqrpbznqqvkbndqrktdnpyqipyntqnjpsndqyndqvqbnpyqokvvpdurpndqripynjpslmvvhqlmszqklmyntpkpoqhjzpsvnpmlphamyjznprq";
         static string _text = "pehjdziavahrazketakefakgayacaypzjpkefakgayjlvjprqyajllpsaalkgjkqilerqdptarksyqadzqujdktalqacakgqruehlztakgaadzqkleemrjrkgehfgpehjyalakkqdejdzqsqkryajlvallqzedkvjdkkemdevzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrehyiaieyqarkgapujdtaqdcqkqdfthkreiajyajlkefakgayiqfglpsyqfgkadqdfjrvazqatekgphehjdzqvqkggajzqdipgjdzrqrqkjdzuypzedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrqkrjlladzqdfqfekkjrkennyakadzqdfvgevajyapehjdziaqujdraahrzpqdfjyavazedkrnajmqmdevxhrkvgjkpehyarjpqdfrenlajrarkenaonljqdqdfzedkkalliaujhraqkghykrzedkrnajmqmdevvgjkpehyakgqdmqdfqzedkdaazpehyyajredrzedkkalliaujhraqkghykrzedkkalliaujhraqkghykrqmdevvgjkpehjyarjpqdfrenlajrarkenaonljqdqdfzedkrnajmzedkrnajmzedkrnajmdeqmdevvgjkpehyakgqdmqdfjdzqzedkdaazpehyyajredrqmdevpehfeezqmdevpehfeezqmdevpehyajlfeezeg";
@@ -31,7 +50,11 @@ namespace Graphic
         public MainWindow()
         {
             InitializeComponent();
-            _breaker = new Breaker(100, BreakerLanguage.English);            
+            CipherTextRichTextBox.SelectAll();
+            CipherTextRichTextBox.Selection.Text = sample36;
+            _language = BreakerLanguage.English;
+            _attempts = 1000;
+            _breaker = new Breaker(Attempts, _language);            
         }
 
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
@@ -39,7 +62,10 @@ namespace Graphic
             CorrectionListView.Items.Clear();
             CipherTextRichTextBox.SelectAll();
             CipherTextRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty,Brushes.Black);
-            var cipherText = GetCipherTextFromTextBox().Trim('\n');
+            var cipherText = GetCipherTextFromTextBox().ToLower().Trim('\n');
+            var lang = DefineLanguage(cipherText);
+            _language = lang;
+            _breaker = new Breaker(Attempts, lang);
             cipherText=cipherText.Trim('\r');
             var key = _breaker.FindKey(cipherText);
             PrintKey(key.Item1);
@@ -103,12 +129,70 @@ namespace Graphic
             item.FontSize = 14;
             item.Content = $"{char.ToUpper(first)} → {char.ToUpper(second)}";
             item.KeyDown += MapListItemView_KeyDown;
+            var menuItem=new MenuItem();
+            menuItem.Header = "HighLight";
+            menuItem.Click += MapListItemView_MouseDown;
+            item.ContextMenu=new ContextMenu();
+            item.ContextMenu.Items.Add(menuItem);
+
+
+        }
+
+        private void MapListItemView_MouseDown(object sender, RoutedEventArgs e)
+        {
+            var rtb1 = CipherTextRichTextBox;
+            rtb1.SelectAll();
+            rtb1.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
+            rtb1.Selection.Select(rtb1.Document.ContentStart, rtb1.Document.ContentStart);
+            var items = MapListView.Items;
+            var nowItem = ((sender as MenuItem).Parent as ContextMenu).PlacementTarget as ListViewItem;
+            var content = ((string)nowItem.Content);
+            var nowLetter = char.ToLower(content[0]);
+            CipherTextRichTextBox.SelectAll();
+
+            var rtb = CipherTextRichTextBox;
+            var text = CipherTextRichTextBox.Selection.Text;
+            var start = rtb.Document.ContentStart.GetNextContextPosition(LogicalDirection.Forward);
+            var end = rtb.Document.ContentEnd;
+
+            var ronge = new TextRange(start, end);
+            for (int i = 0; i < text.Length; i++)
+            {
+                ronge = new TextRange(start, end);
+                if (text[i] == nowLetter)
+                {
+                    
+                    var range = new TextRange(start, start.GetPositionAtOffset((i==0)?2:1));
+                  
+                    range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
+                }
+                start = ronge.Start.GetPositionAtOffset(1);
+            }        
         }
 
         private void MapListItemView_KeyDown(object sender, KeyEventArgs e)
         {
             var items = MapListView.Items;
             var letter = e.Key.ToString()[0];
+            
+            if (_language == BreakerLanguage.Russian)
+            {
+                if (e.Key.ToString()=="Oem3")
+                    letter = '`';
+                if (e.Key.ToString() == "OemOpenBrackets")
+                    letter = '[';
+                if (e.Key.ToString() == "Oem6")
+                    letter = ']';
+                if (e.Key.ToString() == "Oem1")
+                    letter = ';';
+                if (e.Key.ToString() == "OemQuotes")
+                    letter = '\'';
+                if (e.Key.ToString() == "OemComma")
+                    letter = ',';
+                if (e.Key.ToString() == "OemPeriod")
+                    letter = '.';
+                letter = Char.ToUpper(KeyboardEnglishCharToRussianMap(letter));
+            }
             var nowItem = (ListViewItem) sender;
             if (nowItem.Background.Equals(Brushes.LimeGreen))
             {
@@ -235,6 +319,13 @@ namespace Graphic
             }
         }
 
+        private BreakerLanguage DefineLanguage(string text)
+        {
+            var letter = text[0];
+            if (letter >= 'a' && letter <= 'z') return BreakerLanguage.English;
+            return BreakerLanguage.Russian;
+        }
+
         private void TuneCorrectionListViewItem(ListViewItem item)
         {
             item.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -307,15 +398,6 @@ namespace Graphic
             var end = rtb1.Document.ContentStart.GetPositionAtOffset(-endOffset);
             var range = new TextRange(start, end);
 
-          //  var positionStart = rtb.Selection.Start;
-          //  var textBefore = new TextRange(rtb.Document.ContentStart, positionStart).Text;
-           // var spaces = textBefore.Trim().Count(n => n == ' ');
-         //   positionStart = rtb.Selection.Start.GetPositionAtOffset(-spaces);
-           // var positionEnd = rtb.Selection.End.GetPositionAtOffset(-spaces);
-
-
-           // rtb1.Selection.Select(positionStart, positionEnd);
-           // var allText = new TextRange(rtb1.Selection.Start, rtb1.Selection.End);
             range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);          
         }
 
@@ -323,6 +405,55 @@ namespace Graphic
         {
             var rtb = sender as RichTextBox;
             if (rtb.Selection.IsEmpty) return;
+            var rtb1 = CipherTextRichTextBox;
+            rtb1.SelectAll();
+            rtb1.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
+            rtb1.Selection.Select(rtb1.Document.ContentStart, rtb1.Document.ContentStart);
+        }
+
+        private void OpenTextRichTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var top = 21;
+            var secondtop = 154;
+            if ((int) Canvas.GetTop(OpenTextRichTextBox) <= top + 1)
+            {
+                Canvas.SetTop(OpenTextRichTextBox, secondtop);
+                OpenTextRichTextBox.Height -= 25;
+                OpenTextRichTextBox.Height /= 2;
+                CipherTextRichTextBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Canvas.SetTop(OpenTextRichTextBox, top);
+
+                OpenTextRichTextBox.Height *= 2;
+                OpenTextRichTextBox.Height += 25;
+                CipherTextRichTextBox.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void FontSizeUp_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenTextRichTextBox.SelectAll();
+            var fontsize=(double)OpenTextRichTextBox.Selection.GetPropertyValue(TextElement.FontSizeProperty) + 2;
+            OpenTextRichTextBox.Selection.ApplyPropertyValue(TextElement.FontSizeProperty,fontsize);
+        }
+
+        private void FontSizeDown_OnClick(object sender, RoutedEventArgs e)
+        {
+            OpenTextRichTextBox.SelectAll();
+            var fontsize = (double)OpenTextRichTextBox.Selection.GetPropertyValue(TextElement.FontSizeProperty) - 2;
+            OpenTextRichTextBox.Selection.ApplyPropertyValue(TextElement.FontSizeProperty, fontsize);
+        }
+
+        private void SettingsButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
+
+        private void BlackTextMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
             var rtb1 = CipherTextRichTextBox;
             rtb1.SelectAll();
             rtb1.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);

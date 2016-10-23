@@ -186,6 +186,7 @@ namespace Substitution_breaker
             var stringBuilder=new StringBuilder();
             for (int i = 0; i < text.Length; i++)
             {
+                var e = text[i];
                 stringBuilder.Append(Substitution[text[i]]);
             }
             return stringBuilder.ToString();

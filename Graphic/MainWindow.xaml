@@ -5,36 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Graphic"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Canvas Background="#FF24183F">
-        <RichTextBox x:Name="OpenTextRichTextBox" Height="100" Canvas.Left="20" Canvas.Top="142" Width="275" PreviewMouseLeftButtonDown="OpenTextRichTextBox_PreviewMouseLeftButtonDown">
-            <RichTextBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Command="ApplicationCommands.Cut"/>
-                    <MenuItem Command="ApplicationCommands.Copy"/>
-                    <MenuItem Command="ApplicationCommands.Paste"/>
-                    <MenuItem Header="HighLight" Click="OpenTextRichTextBox_MouseUp"/>
-                </ContextMenu>
-            </RichTextBox.ContextMenu>
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="Open Text"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <RichTextBox x:Name="CipherTextRichTextBox" Height="101" Canvas.Left="20" Canvas.Top="21" Width="275">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="Cipher Text"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <ListView x:Name="MapListView" Height="220" Canvas.Left="418" Canvas.Top="21" Width="90">
-        </ListView>
-        <Button x:Name="ExecuteButton" Content="Execute" Height="34.4" Canvas.Left="200.6" Canvas.Top="266.4" Width="136" Click="ExecuteButton_Click"/>
-        <ListView x:Name="CorrectionListView" Height="175" Canvas.Left="310" Canvas.Top="21" Width="93">
-          
-        </ListView>
-        <Button x:Name="CorrectionExecuteButton" Content="Add" Height="30" Canvas.Left="309" Canvas.Top="212" Width="94" Click="CorrectionExecuteButton_Click"/>
-    </Canvas>
+        Title="Breaker" Height="350" Width="525">
+    <Viewbox>
+        <Canvas Name="MainCanvas" Background="#FF24183F" Height="350" Width="565">
+            <RichTextBox x:Name="OpenTextRichTextBox" Height="112" Canvas.Left="18" Canvas.Top="154" Width="304" PreviewMouseLeftButtonDown="OpenTextRichTextBox_PreviewMouseLeftButtonDown" MouseDoubleClick="OpenTextRichTextBox_MouseDoubleClick">
+                <RichTextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="ApplicationCommands.Cut"/>
+                        <MenuItem Command="ApplicationCommands.Copy"/>
+                        <MenuItem Command="ApplicationCommands.Paste"/>
+                        <MenuItem Header="HighLight" Click="OpenTextRichTextBox_MouseUp"/>
+                        <MenuItem Header="FontSizeUp" Click="FontSizeUp_OnClick"/>
+                        <MenuItem Header="FontSizeDown" Click="FontSizeDown_OnClick"/>
+                    </ContextMenu>
+                </RichTextBox.ContextMenu>
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="Open Text"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <RichTextBox x:Name="CipherTextRichTextBox" Height="112" Canvas.Left="18" Canvas.Top="21" Width="304">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="Cipher Text"/>
+                    </Paragraph>
+                </FlowDocument>
+                <RichTextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="ApplicationCommands.Cut"/>
+                        <MenuItem Command="ApplicationCommands.Copy"/>
+                        <MenuItem Command="ApplicationCommands.Paste"/>
+                        <MenuItem Header="BlackText" Click="BlackTextMenuItem_OnClick"/>
+                    </ContextMenu>
+                </RichTextBox.ContextMenu>
+            </RichTextBox>
+            <ListView x:Name="MapListView" Height="303" Canvas.Left="465" Canvas.Top="21" Width="90">
+            </ListView>
+            <Button x:Name="ExecuteButton" Content="Execute" Height="34" Canvas.Left="188" Canvas.Top="290" Width="136" Click="ExecuteButton_Click"/>
+            <ListView x:Name="CorrectionListView" Height="199" Canvas.Left="348" Canvas.Top="21" Width="93">
+
+            </ListView>
+            <Button x:Name="CorrectionExecuteButton" Content="Add" Height="30" Canvas.Left="347" Canvas.Top="236" Width="94" Click="CorrectionExecuteButton_Click"/>
+            <Button x:Name="SettingsButton" Content="Settings" Height="35" Canvas.Left="18" Canvas.Top="290" Width="110" Click="SettingsButton_OnClick"/>
+        </Canvas>
+    </Viewbox>
 </Window>

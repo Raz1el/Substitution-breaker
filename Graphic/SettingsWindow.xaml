@@ -1,0 +1,16 @@
+﻿<Window x:Class="Graphic.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Graphic"
+        mc:Ignorable="d"
+        Title="Settings" Height="300" Width="250" ResizeMode="NoResize" >
+    <Canvas Background="White">
+        <Label x:Name="NumberOfAttemptsLabel" Content="Количество попыток" Height="27" Canvas.Left="10" Canvas.Top="10" Width="158" Foreground="Black" FontWeight="Bold"/>
+        <TextBox x:Name="NumberOfAttemptsTextBox" SelectedText="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="27" Canvas.Left="173" TextWrapping="Wrap" Text="" Canvas.Top="10" Width="60"/>
+        <Label x:Name="ExpamplesLabel" Content="Примеры" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="29" Canvas.Left="10" Canvas.Top="78" Width="223" FontWeight="Bold"/>
+        <Button x:Name="ExecuteButton" Content="OK" Height="26" Click="ExecuteButton_OnClick"  Canvas.Left="75" Canvas.Top="234" Width="93" FontWeight="Bold"/>
+
+    </Canvas>
+</Window>
