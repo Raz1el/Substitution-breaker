@@ -15,8 +15,10 @@
                         <MenuItem Command="ApplicationCommands.Copy"/>
                         <MenuItem Command="ApplicationCommands.Paste"/>
                         <MenuItem Header="HighLight" Click="OpenTextRichTextBox_MouseUp"/>
+                        <MenuItem Header="FindAll" Click="FindAllMenuItem_OnClick"/>
                         <MenuItem Header="FontSizeUp" Click="FontSizeUp_OnClick"/>
                         <MenuItem Header="FontSizeDown" Click="FontSizeDown_OnClick"/>
+                        <MenuItem Header="BlackText" Click="MenuItem_OnClick"/>
                     </ContextMenu>
                 </RichTextBox.ContextMenu>
                 <FlowDocument>

@@ -178,7 +178,24 @@ namespace Graphic
                     range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
                 }
                 start = ronge.Start.GetPositionAtOffset(1);
-            }        
+            }
+            start = OpenTextRichTextBox.Document.ContentStart.GetNextContextPosition(LogicalDirection.Forward);
+            end = OpenTextRichTextBox.Document.ContentEnd;
+            OpenTextRichTextBox.SelectAll();
+            text = OpenTextRichTextBox.Selection.Text;
+            nowLetter = char.ToLower(content[content.Length - 1]);
+            for (int i = 0; i < text.Length; i++)
+            {
+                ronge = new TextRange(start, end);
+                if (text[i] == nowLetter)
+                {
+
+                    var range = new TextRange(start, start.GetPositionAtOffset((i == 0) ? 2 : 1));
+
+                    range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
+                }
+                start = ronge.Start.GetPositionAtOffset(1);
+            }
         }
 
         private void MapListItemView_KeyDown(object sender, KeyEventArgs e)
@@ -471,6 +488,48 @@ namespace Graphic
             rtb1.SelectAll();
             rtb1.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
             rtb1.Selection.Select(rtb1.Document.ContentStart, rtb1.Document.ContentStart);
+        }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var rtb1 = OpenTextRichTextBox;
+            rtb1.SelectAll();
+            rtb1.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
+            rtb1.Selection.Select(rtb1.Document.ContentStart, rtb1.Document.ContentStart);
+        }
+
+        private void FindAllMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var pattern = OpenTextRichTextBox.Selection.Text;
+           
+
+            OpenTextRichTextBox.SelectAll();
+            var text = OpenTextRichTextBox.Selection.Text;
+            var matches = Regex.Matches(text, pattern);
+
+            var rtb = OpenTextRichTextBox;
+
+            var start = rtb.Document.ContentStart.GetNextContextPosition(LogicalDirection.Forward);
+            var end = rtb.Document.ContentEnd;
+
+            var ronge = new TextRange(start, end);
+            var index = matches[0].Index;
+            var match = matches[0];
+            for (int i = 0; i < text.Length; i++)
+            {
+                ronge = new TextRange(start, end);
+               
+                if (i==index)
+                {
+                    var range = new TextRange(start, start.GetPositionAtOffset((i == 0) ? (1+pattern.Length) : pattern.Length));
+
+                    range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
+                    match = match.NextMatch();
+                    index = match.Index;
+                }
+                start = ronge.Start.GetPositionAtOffset(1);
+            }
+            OpenTextRichTextBox.Selection.Select(rtb.Document.ContentStart, rtb.Document.ContentStart);
         }
     }
 
