@@ -55,7 +55,13 @@ namespace Graphic
             InitializeComponent();
             _language = BreakerLanguage.English;
             _attempts = 200;
-            _breaker = new Breaker(Attempts, _language);            
+            _breaker = new Breaker(Attempts, _language);
+            this.Closing += MainWindow_Closing;          
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Environment.Exit(0);
         }
 
         private async void ExecuteButton_Click(object sender, RoutedEventArgs e)
