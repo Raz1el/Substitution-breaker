@@ -58,7 +58,7 @@ namespace Graphic
             _breaker = new Breaker(Attempts, _language);            
         }
 
-        private void ExecuteButton_Click(object sender, RoutedEventArgs e)
+        private async void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             CorrectionListView.Items.Clear();
             CipherTextRichTextBox.SelectAll();
@@ -68,7 +68,11 @@ namespace Graphic
             _language = lang;
             _breaker = new Breaker(Attempts, lang);
             cipherText=cipherText.Trim('\r');
-            var key = _breaker.FindKey(cipherText);
+            var progressBar=new ProgressBarWindow(_attempts);
+            _breaker.StateChanged += progressBar.ProgressChanged;
+            progressBar.Show();
+            var key =await _breaker.FindKeyAsync(cipherText);
+            progressBar.Hide();
             PrintKey(key.Item1);
             PrintToTextBox(OpenTextRichTextBox,key.Item2);
             MessageBox.Show($"Приблизительный ключ найден!{Environment.NewLine}Результат функции: {key.Item1.Fitness}",
